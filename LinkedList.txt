@@ -1,0 +1,475 @@
+
+
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* next;
+    
+    Node(int d){
+        this->data=d;
+        this->next=NULL;
+    }
+    ~Node(){
+        int value=this->data;
+        if(this->next!=NULL){
+            delete next;
+            this->next=NULL;
+        }
+        cout<<"Free"<<endl;
+    }
+};
+
+void printll(Node* &head){
+    Node* temp=head;
+    while(temp!=NULL){
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+    cout<<endl;
+}
+void insertathead(Node* &head,int data){
+    Node* temp=new Node(data);
+    temp->next=head;
+    head=temp;
+}
+void insertatlast(Node* &head,int data){
+    Node* temp2=new Node(data);
+    temp2->next=NULL;
+    
+    Node* temp=head;
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next=temp2;
+}
+void insertatrandon(Node* &head,int data,int n){
+    Node* temp=new Node(data);
+    temp->next=NULL;
+    
+    Node* temp1=head;
+    Node* temp2=head;
+    n--;
+    while(n!=1){
+        temp1=temp1->next;
+        temp2=temp2->next;
+        n--;
+    }
+    temp2=temp2->next;
+    temp1->next=temp;
+    temp->next=temp2;
+}
+void deletenode(Node* &head,int pos){
+        
+    if(pos==1){
+        Node* temp1=head;
+        head=head->next;
+        delete temp1;
+    }
+    else{
+        Node* temp1=head;
+        Node* temp2=head;
+        pos--;
+        while(pos!=1){
+            temp1=temp1->next;   
+            temp2=temp2->next;
+            pos--;
+        }
+        temp2=temp2->next;
+        temp1->next=temp2->next;
+        temp2->next=NULL;
+        delete temp2;
+    }
+}
+Node* reversellwithoutrec(Node* head){
+    Node* curr=head;
+    Node* forr=NULL;
+    Node* prev=NULL;
+    while(curr!=NULL){
+        forr=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=forr;
+    }
+    return prev;
+}
+Node* reversellwithrecc(Node* head){
+    if(head==NULL||head->next==NULL)
+    return head;
+    else{
+        Node* chotahead=reversellwithrecc(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return chotahead;
+    }
+}
+Node* findthemiddle(Node* head){
+    Node* fast=head;
+    Node* slow=head;
+    while(fast!=NULL&&fast->next!=NULL){
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    return slow;
+}
+int main()
+{
+    Node* node1=new Node(15);
+    Node* head=node1;
+    insertathead(head,17);
+    insertathead(head,20);
+    insertatlast(head,21);
+    insertatlast(head,23);
+    insertatrandon(head,16,5);
+    // printll(head);
+    deletenode(head,3);
+    printll(head);
+    // Node* prev=reversellwithoutrec(head);
+    // printll(prev);
+    // Node* prev2=reversellwithrecc(head);
+    // printll(prev2);
+    Node* mid=findthemiddle(head);
+    cout<<mid->data<<endl;
+    
+    return 0;
+}
+
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include <map>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* link;
+    
+    Node(int val){
+        this->data=val;
+        this->link=NULL;
+    }
+};
+void insertathead(Node* &head,int val){
+    Node* temp=new Node(val);
+    temp->link=head;
+    head=temp;
+}
+void printall(Node* &head){
+    Node* tail=head;
+    while(tail!=NULL){
+        cout<<tail->data<<endl;
+        tail=tail->link;
+    }
+    cout<<endl;
+}
+// Node* reverse(Node* head){
+//     Node* prev=NULL;
+//     Node* curr=head;
+//     Node* forr=NULL;
+//     while(curr!=NULL){
+//         forr=curr->link;
+//         curr->link=prev;
+//         prev=curr;
+//         curr=forr;
+//     }
+//     return prev;
+// }
+
+//using recursion
+Node* reverse(Node* &head){
+    if((head==NULL) || (head->link==NULL))
+    return head;
+    
+    
+    Node* chotahead=reverse(head->link);
+    head->link->link=head;
+    head->link=NULL;
+    return chotahead;
+}
+
+bool findloopornot(Node* &head){
+    Node* curr=head;
+    map<Node*,bool>visited;
+    while(curr!=NULL){
+        if(visited[curr]==true){
+            cout<<"Present at Element "<<curr->data<<endl;
+            return true;
+        }
+        else
+        visited[curr]=true;
+        curr=curr->link;
+    }
+    return false;
+}
+
+int main()
+{
+    Node* node1=new Node(15);
+    Node* head=node1;
+    insertathead(head,14);
+    insertathead(head,13);
+    insertathead(head,12);
+    insertathead(head,11);
+    insertathead(head,10);
+    printall(head);
+    head->link->link->link->link->link->link=head->link->link;
+    // cout<<"Reverse Linked List"<<endl;
+    // Node* yunus=reverse(head);
+    // printall(yunus);
+    if(findloopornot(head))
+    cout<<"YES"<<endl;
+    else
+    cout<<"NO"<<endl;
+}
+
+
+
+
+
+STACK
+
+
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include <stack>
+using namespace std;
+
+class Stack{
+    public:
+        int *arr;
+        int top;
+        int size;
+    Stack(int size){
+        this->size = size;
+        arr=new int[size];
+        top=-1;
+    }
+void push(int element){
+    if(size-top>1){
+    arr[top+1]=element;
+    top++;}
+    else
+    cout<<"Stack overflow hogae bro"<<endl;
+}
+void pop(){
+    if(top>-1)
+        top--;
+        else
+        cout<<"Stack is Empty"<<endl;
+}
+void peek(){
+    if(top>-1){
+        int ans=arr[top];
+        cout<<ans<<endl;}
+    else
+    cout<<"Stack is Empty"<<endl;
+}
+bool isEmpty(){
+    if(top==-1)
+    return "True";
+    else
+    return "False";
+}
+};
+int main()
+{
+    Stack st(5);
+    st.push(22);
+    st.peek();
+    st.push(40);
+    st.peek();
+    st.pop();
+    st.peek();
+    st.pop();
+    st.peek();
+    return 0;
+}
+
+
+
+
+
+QUEUE
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include<queue>
+using namespace std;
+
+class Queue{
+    public:
+    int front;
+    int rear;
+    int *arr;
+    int size;
+    
+    Queue(int size){
+        this->size=size;
+        front=0;
+        rear=0;
+        arr[]=new int[size];
+    }
+    void push(int element){
+        if(rear==size)
+        cout<<"Overflow ho agya bro"<<endl;
+        else{
+            arr[rear]=element;
+            rear++;
+        }
+    }
+    int pop(){
+        if(front==rear)
+        cout<<"Element nhi hai bro"<<endl;
+        return -1;
+        else{
+            int ans=arr[front];
+            arr[front]=-1;
+            front++;
+            if(front==rear){
+                front=0;
+                rear=0;
+            }
+            return ans;
+        }
+    }
+    bool Empty(){
+        if(front==rear)
+        return true;
+        else
+        return false;
+    }
+    int front(){
+        if(front==rear)
+        return -1;
+        else
+        return arr[front];
+    }
+}
+int main()
+{
+    Queue q(5);
+    q.push(11);
+    q.push(16);
+    s.pop();
+    if(s.Empty())
+    cout<<"true"<<endl;
+    else
+    cout<<"False"<<endl;
+
+    return 0;
+}
+
+
+
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include<queue>
+#include<stack>
+using namespace std;
+// 1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
+class Node{
+    public:
+        int data;
+        Node*left;
+        Node*right;
+    Node(int d){
+        this->data=d;
+        this->left=NULL;
+        this->right=NULL;
+    }
+};
+Node* buildtree(Node* root){
+    cout<<"Enter the data:"<<endl;
+    int data;
+    cin>>data;
+    root=new Node(data);
+    
+    if(data==-1)
+    return NULL;
+    
+    cout<<"Enter the data for the left subtree:"<<endl;
+    root->left=buildtree(root->left);
+    cout<<"Enter the data for the right:"<<endl;
+    root->right=buildtree(root->right);
+    return root;
+}
+void ordertraversal(Node* root){
+    queue <Node*> q;
+    stack <Node*> s;
+    q.push(root);
+    s.push(root);
+    s.push(NULL);
+    q.push(NULL);
+    while(!q.empty()){
+        Node* temp=q.front();
+        q.pop();
+        if(temp==NULL){
+            cout<<endl;
+            if(!q.empty()){
+            q.push(NULL);
+            s.push(NULL);
+        }}
+        else{
+            cout<<temp->data<<" ";
+            if(temp->left){
+            q.push(temp->left);
+            s.push(temp->left);    
+            }
+            if(temp->right){
+            q.push(temp->right);
+            s.push(temp->right);
+        }}
+    }
+    while(!s.empty()){
+        if(s.top()==NULL)
+        cout<<endl;
+        else
+        cout<<s.top()->data<<" ";
+        s.pop();
+    }
+}
+
+int main()
+{
+    Node* root=NULL;
+    root=buildtree(root);
+    cout<<"Printing the level order transversal"<<endl;
+    ordertraversal(root);
+    return 0;
+}
