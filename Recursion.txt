@@ -1,0 +1,371 @@
+All the subset of an array
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <vector>
+using namespace std;
+void solve(int ind,int arr[],int n,vector<int>& ds){
+    if(ind==n){
+        for(auto i:ds)
+        cout<<i<<" ";
+        cout<<endl;
+        return;
+    }
+    //Pick
+    ds.push_back(arr[ind]);
+    solve(ind+1,arr,n,ds);
+    ds.pop_back();
+    solve(ind+1,arr,n,ds);
+}
+int main() {
+    int arr[]={1,2,2};
+    int n=3;
+    vector<int> ds;
+    solve(0,arr,n,ds);
+    return 0;
+}
+All the unique subset of an array with duplicate elements
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <vector>
+using namespace std;
+void solve(int ind,int arr[],int n,vector<int>& ds){
+    if(ind==n){
+        for(auto i:ds)
+        cout<<i<<" ";
+        cout<<endl;
+        return;
+    }
+    //Pick
+    if(n>2){
+        ds.push_back(arr[ind]);
+        solve(ind+1,arr,n,ds);
+        ds.pop_back();
+    }
+    solve(ind+1,arr,n,ds);
+}
+int main() {
+    int arr[]={1,2,2};
+    int n=3;
+    vector<int> ds;
+    solve(0,arr,n,ds);
+    return 0;
+}
+Subset sum and break if is equal to target
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <vector>
+using namespace std;
+void findtarget(int ind,int &sum,int arr[],int n,vector<int>& ds){
+    if(ind==n){
+        if(sum==0){
+        for(auto i:ds)
+        cout<<i<<" ";
+        cout<<endl;
+    }return;}
+    //pick
+    ds.push_back(arr[ind]);
+    sum-=arr[ind];
+    findtarget(ind+1,sum,arr,n,ds);
+    //not pick
+    ds.pop_back();
+    sum+=arr[ind];
+    findtarget(ind+1,sum,arr,n,ds);
+}
+int main() {
+    int arr[]={3,1,1};
+    int sum=5;
+    int n=3;
+    vector<int> ds;
+    findtarget(0,sum,arr,n,ds);
+    return 0;
+}
+
+find the sum of target using all the elements of subset repetition allowed 
+ip=[2,3,6,7]
+target = 7
+op=[[2,2,3],[7]]
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <vector>
+using namespace std;
+void Findcombination(int ind,int target,int arr[],int n,vector<int>& ds){
+    if(ind==n){
+        if(target==0){
+            for(auto i:ds)
+            cout<<i<<" ";
+            cout<<endl;
+        }
+        return;
+    }
+    //Pick
+    if(ind<=target){
+    ds.push_back(arr[ind]);
+    Findcombination(ind,target-arr[ind],arr,n,ds);
+    ds.pop_back();}
+    //Not Pick
+    Findcombination(ind+1,target,arr,n,ds);
+}
+int main() {
+    int arr[]={1,2,3,4};
+    int target=5;
+    int n=4;
+    vector<int> ds;
+    Findcombination(0,target,arr,n,ds);
+    return 0;
+}
+// Time Complexity = (2 ^ t) x K
+// Space Complexity = k * x
+Subset with particular Sum no repetition
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <vector>
+using namespace std;
+void findTarget(int ind,int &sum,vector<int>& ds,int arr[],int n){
+    if(ind==n){
+        if(sum==0){
+            for(auto i:ds)
+            cout<<i<<" ";
+            cout<<endl;
+        }
+        return;
+    }
+    //Pick
+    sum-=arr[ind];
+    ds.push_back(arr[ind]);
+    findTarget(ind+1,sum,ds,arr,n);
+    sum+=arr[ind];
+    //Not pick
+    ds.pop_back();
+    findTarget(ind+1,sum,ds,arr,n);
+}
+int main() {
+    int arr[]={1,3,2,4,5};
+    int n=4;
+    vector<int>ds;
+    int sum=6;
+    cout<<"Target value = "<<sum<<endl;
+    findTarget(0,sum,ds,arr,n);
+    return 0;
+}
+//Time Complexity = 2 ^ n
+//Space Complexity = O(n)
+sum of Subsets with even Sum
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <vector>
+using namespace std;
+void findTargetuserep(int ind,int sum,vector<int>& ds,int arr[],int n){
+    if(ind==n){
+        if(sum%2==0){
+            for(auto i:ds)
+            cout<<i<<" ";
+            cout<<endl;
+        }
+        return;
+    }
+    //Pick
+    if(ind<=sum){
+    ds.push_back(arr[ind]);
+    findTargetuserep(ind,sum-arr[ind],ds,arr,n);
+    //Not pick
+    ds.pop_back();}
+    findTargetuserep(ind+1,sum,ds,arr,n);
+}
+int main() {
+    int arr[]={1,2,3};
+    int n=3;
+    vector<int>ds;
+    int sum=arr[0]+arr[1]+arr[2];
+    cout<<"Target value = "<<sum<<endl;
+    cout<<"For Even Sum"<<endl;
+    findTargetuserep(0,sum,ds,arr,n);
+    return 0;
+}
+//Time Complexity = 
+//Space Complexity = 
+Calculate Power A on B using recursion and divide and conquer
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+int solve(int a,int b){
+    if(b==0)
+    return 1;
+    return a*solve(a,b-1);
+}
+int Power(int a,int b){
+    if(b==0)
+    return 1;
+    int result=Power(a,b/2);
+    if(b%2==0)
+    return result*result;
+    return result*result*a;
+}
+int main() {
+    int a=2,b=5;
+    cout<<"Calculation power using recursion"<<endl;
+    cout<<solve(a,b)<<endl;
+    //Time complexity = O(n)
+    cout<<"Calculation power using divide and rule"<<endl;
+    cout<<Power(a,b)<<endl;
+    //Time complexity = O(log n)
+    return 0;
+}
+Print all the permutation
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+void print(char arr[],int n){
+    cout<<"Printing all the permutation of the string = "<<" ";
+    for(int i=0;i<n;i++)
+    cout<<arr[i]<<" ";
+    cout<<endl;
+}
+void permutation(int ind,char arr[],vector<int>& ds,int n){
+    if(ind==n){
+        for(int i=0;i<n;i++)
+        cout<<arr[i]<<" ";
+        cout<<endl;
+        return;
+    }
+    for(int i=ind;i<n;i++){
+        swap(arr[ind],arr[i]);
+        permutation(ind+1,arr,ds,n);
+        swap(arr[ind],arr[i]);
+    }
+}
+int main() {
+    char arr[]={'a','b','c'};
+    int n=3;
+    vector<int>ds;
+    print(arr,n);
+    permutation(0,arr,ds,n);
+    return 0;
+}
+print all the permutation of a string
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+void print(char arr[],int n){
+    // cout<<"Printing all the permutation of the string = "<<" ";
+    cout<<"String = "<<" ";
+    for(int i=0;i<n;i++)
+    cout<<arr[i]<<" ";
+    cout<<endl;
+}
+void permutation(int ind,char arr[],int n){
+    if(ind==n){
+        //print the array on hitting the condition last line
+        for(int i=0;i<n;i++)
+        cout<<arr[i]<<" ";
+        cout<<endl;
+        return;
+    }
+    for(int i=ind;i<n;i++){
+        swap(arr[ind],arr[i]);//swap the arr position
+        permutation(ind+1,arr,n);//recall by increasing the value of ind
+        swap(arr[ind],arr[i]);//unswap because of backtracking
+    }
+}
+int main() {
+    char arr[]={'a','b','c'};
+    int n=3;
+    // vector<int>ds;
+    print(arr,n);
+    permutation(0,arr,n);
+    return 0;
+}
+//Time complexity = n! x n
+//Space compleity = O(N!)
+
+
+
+
+Doubt
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+void print(char arr[],int n){
+    // cout<<"Printing all the permutation of the string = "<<" ";
+    cout<<"String = "<<" ";
+    for(int i=0;i<n;i++)
+    cout<<arr[i]<<" ";
+    cout<<endl;
+}
+void rightshift(char arr[],int l,int r){
+    int temp=arr[r];
+    for(int k=r-1;k>=l;k--){
+        arr[k+1]=arr[k];
+    }
+    arr[l]=temp;
+}
+void leftshift(char arr[],int l,int r){
+    int temp=arr[l];
+    for(int k=l;k<r;k++){
+        arr[k-1]=arr[k];
+    }
+    arr[r]=temp;
+}
+void permutation(int ind,char arr[],int n){
+    if(ind==n){
+        //print the array on hitting the condition last line
+        for(int i=0;i<n;i++)
+        cout<<arr[i]<<" ";
+        cout<<endl;
+        return;
+    }
+    bool map[256];
+    for(int i=0;i<256;i++)
+    map[i]=false;
+    
+    for(int i=ind;i<n;i++){
+        if(map[arr[ind]]==false)
+        swap(arr[ind],arr[i]);//swap the arr position
+        // rightshift
+        // rightshift(arr,ind,i);
+        permutation(ind+1,arr,n);//recall by increasing the value of ind
+        swap(arr[ind],arr[i]);//unswap because of backtracking
+        map[arr[i]]=true;
+        // leftshift
+        // leftshift(arr,ind,i);
+        
+    }
+}
+void repetitionpermutation(int ind,char arr[],int n){
+    {
+    if(ind==n){
+        //print the array on hitting the condition last line
+        for(int i=0;i<n;i++)
+        cout<<arr[i]<<" ";
+        cout<<endl;
+        return;
+    }
+    bool map[256];
+    for(int i=0;i<256;i++)
+    map[i]=false;
+    
+    for(int i=ind;i<n;i++){
+        if(map[arr[ind]]==false){
+        swap(arr[ind],arr[i]);//swap the arr position
+        map[arr[ind]]=true;
+        }
+        // rightshift
+        // rightshift(arr,ind,i);
+        permutation(ind+1,arr,n);//recall by increasing the value of ind
+        swap(arr[ind],arr[i]);//unswap because of backtracking
+        // leftshift
+        // leftshift(arr,ind,i);
+        
+    }
+}
+}
+int main() {
+    char arr[]={'a','a','c'};
+    int n=3;
+    print(arr,n);
+    // permutation(0,arr,n);
+    repetitionpermutation(0,arr,n);
+    return 0;
+}
